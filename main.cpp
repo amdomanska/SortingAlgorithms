@@ -22,11 +22,14 @@ void showTime(vector<T> data)
 int main()
 {
     //Absolut path to the file with data that should be sort
-    const char* fileName = "/home/agnieszka/Projects/Algorithms/float_data.txt";
+    string fileName /*= "/home/agnieszka/Projects/Algorithms_origin/float_data.txt"*/;
+    cout<<"Enter the absoluth path to your data file..."<<endl;
+    cin>>fileName;
+    cout<<endl;
     cout<<"Opening file " <<fileName<<"..."<<endl;
 
     ifstream dataFile;
-    dataFile.open(fileName);
+    dataFile.open(fileName.c_str());
 
     if(!dataFile.good())
     {
