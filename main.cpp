@@ -61,14 +61,11 @@ int main()
     {
         dataFile.clear();
         dataFile.seekg(0);
-        while (!dataFile.eof())
+        string s;
+        while (dataFile>>s)
         {
-            string s;
             dataFile>>s;
-            if(!dataFile.fail())
-            {
-                stringData.push_back(s);
-            }
+            stringData.push_back(s);
         }
         showTime(stringData);
         return 0;
