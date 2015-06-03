@@ -16,8 +16,8 @@ private:
     vector<T> quickResult;
     string algorithmType;
     vector <vector<T>(Sorting<T>::*)()> ptrsToMethods;
-public:
 
+public:
     Sorting(vector<T>& in) : Algorithm<T>(in)
     {
     }
@@ -26,33 +26,36 @@ public:
     {
         algorithmType = "BubbleSort";
         bubbleResult = this->createResultVector();
-        for (int i = 1; i<this->dataSize; i++)
+        for (int i = 1; i < this->dataSize; i++)
         {
-            for (int j = this->dataSize-1; j>=i; j--)
+            for (int j = this->dataSize-1; j >= i; j--)
             {
-                if(this->bubbleResult[j] < this->bubbleResult[j-1])
+                if (this->bubbleResult[j] < this->bubbleResult[j-1])
                 {
                     swap(this->bubbleResult[j-1], this->bubbleResult[j]);
                 }
             }
         }
+
         return bubbleResult;
     }
 
-    vector<T> computeHeapSort(){
+    vector<T> computeHeapSort()
+    {
         algorithmType = "HeapSort";
         heapResult = this->createResultVector();
         int heapSize = this->dataSize;
-        for (int i = heapSize/2; i>0; i--)
+        for (int i = heapSize/2; i > 0; i--)
         {
-            shiftUp(i,heapSize, heapResult);
+            shiftUp(i, heapSize, heapResult);
         }
-        while(heapSize>1)
+        while (heapSize > 1)
         {
             swap(this->heapResult[0], this->heapResult[heapSize-1]);
             heapSize--;
-            shiftUp(1,heapSize, heapResult);
+            shiftUp(1, heapSize, heapResult);
         }
+
         return heapResult;
     }
 
@@ -60,7 +63,7 @@ public:
     {
         algorithmType = "MergeSort";
         mergeResult = this->createResultVector();
-        computeMerge(0, this->dataSize-1,mergeResult);
+        computeMerge(0, this->dataSize-1, mergeResult);
 
         return mergeResult;
     }
@@ -69,17 +72,18 @@ public:
     {
         algorithmType = "InsertSort";
         insertResult = this->createResultVector();
-        for (int i=1; i<this->dataSize; i++)
+        for (int i = 1; i < this->dataSize; i++)
         {
-            int j=i;
+            int j = i;
             T tmp = this->insertResult[j];
-            while((j>0) && (this->insertResult[j-1])>tmp)
+            while((j > 0) && (this->insertResult[j-1]) > tmp)
             {
-                this->insertResult[j]=this->insertResult[j-1];
+                this->insertResult[j] = this->insertResult[j-1];
                 j--;
             }
-            this->insertResult[j]=tmp;
+            this->insertResult[j] =tmp;
         }
+
         return insertResult;
     }
 
@@ -87,7 +91,7 @@ public:
     {
         algorithmType = "QuickSort";
         quickResult = this->createResultVector();
-        computeQuick(0,this->dataSize-1,quickResult);
+        computeQuick(0, this->dataSize-1, quickResult);
 
         return quickResult;
     }
@@ -97,16 +101,16 @@ public:
         return this->algorithmType;
     }
 
-    void saveResultToFile(string fileName, vector<T>& result, string algorithmType = "")
+    void saveResultToFile(string fileName, vector<T>& result, string algorithmType = string())
     {
-        cout<<"saving result of "<<algorithmType<<" to file "<<fileName<<endl;
+        cout << "saving result of " << algorithmType << " to file " << fileName << endl;
         ofstream output_file(fileName.c_str());
         ostream_iterator<T> output_iterator(output_file, "\n");
         copy(result.begin(), result.end(), output_iterator);
     }
 
-    vector <vector<T>(Sorting<T>::*)()> getPointersToAllSoringMethods(){
-
+    vector <vector<T>(Sorting<T>::*)()> getPointersToAllSoringMethods()
+    {
         ptrsToMethods.push_back(&Sorting<T>::computeBubbleSort);
         ptrsToMethods.push_back(&Sorting<T>::computeHeapSort);
         ptrsToMethods.push_back(&Sorting<T>::computeInsertSort);
@@ -124,7 +128,7 @@ private:
         while(pos <= heapSize/2)
         {
             j = 2*pos;
-            if((j<heapSize) && (data[j-1] < data[j]))
+            if ((j < heapSize) && (data[j-1] < data[j]))
             {
                 j++;
             }
@@ -135,7 +139,7 @@ private:
             else
             {
                 data[pos-1] = data[j-1];
-                pos=j;
+                pos = j;
             }
         }
         data[pos-1] = val;
@@ -190,9 +194,9 @@ private:
         if (firstPos < lastPos)
         {
             int midPos = (firstPos + lastPos)/2;
-            this->computeMerge(firstPos, midPos,data);
-            this->computeMerge(midPos+1, lastPos,data);
-            this->merge(firstPos, midPos, lastPos,data);
+            this->computeMerge(firstPos, midPos, data);
+            this->computeMerge(midPos+1, lastPos, data);
+            this->merge(firstPos, midPos, lastPos, data);
         }
     }
 
@@ -200,13 +204,16 @@ private:
     {
         if(left < right){
             int m = left;
-            for (int i = left+1; i<=right; i++)
+            for (int i = left+1; i <= right; i++)
             {
-                if(data[i]<data[left]) swap(data[++m], data[i]);
+                if(data[i] < data[left])
+                {
+                    swap(data[++m], data[i]);
+                }
             }
             swap(data[left],data[m]);
-            this->computeQuick(left,m-1,data);
-            this->computeQuick(m+1,right,data);
+            this->computeQuick(left, m-1, data);
+            this->computeQuick(m+1, right, data);
         }
     }
 };

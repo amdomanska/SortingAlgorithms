@@ -1,18 +1,17 @@
-#include "sorting.h"
+#include "sortingAlgorithm.h"
 #include <pthread.h>
 #include <fstream>
 using namespace std;
 
 template <typename T>
-void showTime(vector<T> data)
+void computeAll(vector<T> data)
 {
-
     Sorting<T> sortAlgorithms(data);
 
     vector <vector<T>(Sorting<T>::*)()> ptrsToMethods = sortAlgorithms.getPointersToAllSoringMethods();
     vector<T> result;
 
-    for (unsigned int i = 0; i<ptrsToMethods.size(); i++)
+    for (unsigned int i = 0; i < ptrsToMethods.size(); i++)
     {
         result = (sortAlgorithms.*ptrsToMethods[i])();
         sortAlgorithms.saveResultToFile(sortAlgorithms.getAlgorithmType() + "_result.txt", result, sortAlgorithms.getAlgorithmType());
@@ -21,39 +20,39 @@ void showTime(vector<T> data)
 
 int main()
 {
-    //Absolut path to the file with data that should be sort
-    string fileName /*= "/home/agnieszka/Projects/Algorithms_origin/float_data.txt"*/;
-    cout<<"Enter the absoluth path to your data file..."<<endl;
-    cin>>fileName;
-    cout<<endl;
-    cout<<"Opening file " <<fileName<<"..."<<endl;
+    string fileName;
+    cout << "Enter the absoluth path to your data file..." << endl;
+    cin >> fileName;
+    cout << endl;
+    cout << "Opening file " << fileName << " ..." << endl;
 
     ifstream dataFile;
     dataFile.open(fileName.c_str());
 
-    if(!dataFile.good())
+    if (!dataFile.good())
     {
-        cout<<"File with data cannot be open"<<endl;
+        cout << "File with data cannot be open" << endl;
+
         return 0;
     }
 
-    cout<<"File open correctly..."<<endl;
+    cout << "File open correctly..." << endl;
 
     bool isString = false;
     vector<double> doubleData;
     float f;
-    while (dataFile>>f)
+    while (dataFile >> f)
     {
         doubleData.push_back(f);
     }
-    if(!dataFile.eof())
+    if (!dataFile.eof())
     {
-        cout<<"Let's sort strings!"<<endl;
+        cout << "Let's sort strings!" << endl;
         isString = true;
     }
     else
     {
-        cout<<"Let's sort doubles!"<<endl;
+        cout << "Let's sort doubles!" << endl;
     }
 
     vector<string> stringData;
@@ -62,15 +61,17 @@ int main()
         dataFile.clear();
         dataFile.seekg(0);
         string s;
-        while (dataFile>>s)
+        while (dataFile >> s)
         {
-            dataFile>>s;
+            dataFile >> s;
             stringData.push_back(s);
         }
-        showTime(stringData);
+        computeAll(stringData);
+
         return 0;
     }
-    showTime(doubleData);
+    computeAll(doubleData);
+
     return 0;
 }
 
