@@ -111,6 +111,7 @@ public:
 
     const std::vector <const std::vector<T>& (Sorting<T>::*)()>& getPointersToAllSoringMethods()
     {
+        ptrsToMethods.clear();
         ptrsToMethods.push_back(&Sorting<T>::computeBubbleSort);
         ptrsToMethods.push_back(&Sorting<T>::computeHeapSort);
         ptrsToMethods.push_back(&Sorting<T>::computeInsertSort);
