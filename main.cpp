@@ -21,7 +21,7 @@ int main()
     std::string fileName;
     std::cout << "Enter the absoluth path to your data file..." << std::endl;
     std::cin >> fileName;
-    std::cout << endl;
+    std::cout << std::endl;
 
     std::cout << "Opening file " << fileName << " ..." << std::endl;
 
