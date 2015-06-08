@@ -8,4 +8,4 @@ Application determines if data is of type double, if not it is sorted as type st
 output: *_result.txt files - one for each sort algorithms.
 
 compilation: compile.sh bash script included with g++ command;
-run: ./sortingAlgorithms.o
+run: ./sortingAlgorithms
