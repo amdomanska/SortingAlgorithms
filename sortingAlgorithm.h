@@ -9,20 +9,20 @@ template <typename T>
 class Sorting : public Algorithm<T>
 {
 private:
-    vector<T> bubbleResult;
-    vector<T> heapResult;
-    vector<T> mergeResult;
-    vector<T> insertResult;
-    vector<T> quickResult;
-    string algorithmType;
-    vector <vector<T>(Sorting<T>::*)()> ptrsToMethods;
+    std::vector<T> bubbleResult;
+    std::vector<T> heapResult;
+    std::vector<T> mergeResult;
+    std::vector<T> insertResult;
+    std::vector<T> quickResult;
+    std::string algorithmType;
+    std::vector <const std::vector<T>& (Sorting<T>::*)()> ptrsToMethods;
 
 public:
-    Sorting(vector<T>& in) : Algorithm<T>(in)
+    Sorting(std::vector<T>& in) : Algorithm<T>(in)
     {
     }
 
-    vector<T> computeBubbleSort()
+    const std::vector<T>& computeBubbleSort()
     {
         algorithmType = "BubbleSort";
         bubbleResult = this->createResultVector();
@@ -32,7 +32,7 @@ public:
             {
                 if (this->bubbleResult[j] < this->bubbleResult[j-1])
                 {
-                    swap(this->bubbleResult[j-1], this->bubbleResult[j]);
+                    std::swap(this->bubbleResult[j-1], this->bubbleResult[j]);
                 }
             }
         }
@@ -40,7 +40,7 @@ public:
         return bubbleResult;
     }
 
-    vector<T> computeHeapSort()
+    const std::vector<T>& computeHeapSort()
     {
         algorithmType = "HeapSort";
         heapResult = this->createResultVector();
@@ -51,7 +51,7 @@ public:
         }
         while (heapSize > 1)
         {
-            swap(this->heapResult[0], this->heapResult[heapSize-1]);
+            std::swap(this->heapResult[0], this->heapResult[heapSize-1]);
             heapSize--;
             shiftUp(1, heapSize, heapResult);
         }
@@ -59,7 +59,7 @@ public:
         return heapResult;
     }
 
-    vector<T> computeMergeSort()
+    const std::vector<T>& computeMergeSort()
     {
         algorithmType = "MergeSort";
         mergeResult = this->createResultVector();
@@ -68,7 +68,7 @@ public:
         return mergeResult;
     }
 
-    vector<T> computeInsertSort()
+    const std::vector<T>& computeInsertSort()
     {
         algorithmType = "InsertSort";
         insertResult = this->createResultVector();
@@ -76,18 +76,18 @@ public:
         {
             int j = i;
             T tmp = this->insertResult[j];
-            while((j > 0) && (this->insertResult[j-1]) > tmp)
+            while ((j > 0) && (this->insertResult[j-1]) > tmp)
             {
                 this->insertResult[j] = this->insertResult[j-1];
                 j--;
             }
-            this->insertResult[j] =tmp;
+            this->insertResult[j] = tmp;
         }
 
         return insertResult;
     }
 
-    vector<T> computeQuickSort()
+    const std::vector<T>& computeQuickSort()
     {
         algorithmType = "QuickSort";
         quickResult = this->createResultVector();
@@ -96,20 +96,20 @@ public:
         return quickResult;
     }
 
-    string getAlgorithmType()
+    const std::string& getAlgorithmType() const
     {
         return this->algorithmType;
     }
 
-    void saveResultToFile(string fileName, vector<T>& result, string algorithmType = string())
+    void saveResultToFile(const std::string fileName, const std::vector<T>& result, const std::string algorithmType = std::string()) const
     {
-        cout << "saving result of " << algorithmType << " to file " << fileName << endl;
-        ofstream output_file(fileName.c_str());
-        ostream_iterator<T> output_iterator(output_file, "\n");
+        std::cout << "saving result of " << algorithmType << " to file " << fileName << std::endl;
+        std::ofstream output_file(fileName.c_str());
+        std::ostream_iterator<T> output_iterator(output_file, "\n");
         copy(result.begin(), result.end(), output_iterator);
     }
 
-    vector <vector<T>(Sorting<T>::*)()> getPointersToAllSoringMethods()
+    const std::vector <const std::vector<T>& (Sorting<T>::*)()>& getPointersToAllSoringMethods()
     {
         ptrsToMethods.push_back(&Sorting<T>::computeBubbleSort);
         ptrsToMethods.push_back(&Sorting<T>::computeHeapSort);
@@ -121,18 +121,18 @@ public:
     }
 
 private:
-    void shiftUp(int pos, int heapSize, vector<T>& data)
+    void shiftUp(int pos, int heapSize, std::vector<T>& data)
     {
         int j;
         T val = data[pos-1];
-        while(pos <= heapSize/2)
+        while (pos <= heapSize/2)
         {
             j = 2*pos;
             if ((j < heapSize) && (data[j-1] < data[j]))
             {
                 j++;
             }
-            if(val >= data[j-1])
+            if (val >= data[j-1])
             {
                 break;
             }
@@ -145,7 +145,7 @@ private:
         data[pos-1] = val;
     }
 
-    void merge(int firstPos, int midPos, int lastPos, vector<T>& data)
+    void merge(int firstPos, int midPos, int lastPos, std::vector<T>& data)
     {
         T aux[this->dataSize];
         int leftFirstPos = firstPos;
@@ -155,9 +155,9 @@ private:
 
         int i = leftFirstPos;
 
-        while((leftFirstPos <= leftLastPos) && (rightFirstPos <= rightLastPos))
+        while ((leftFirstPos <= leftLastPos) && (rightFirstPos <= rightLastPos))
         {
-            if(data[leftFirstPos] < data[rightFirstPos])
+            if (data[leftFirstPos] < data[rightFirstPos])
             {
                 aux[i] = data[leftFirstPos];
                 leftFirstPos++;
@@ -170,13 +170,13 @@ private:
             i++;
         }
 
-        while(leftFirstPos <= leftLastPos)
+        while (leftFirstPos <= leftLastPos)
         {
             aux[i] = data[leftFirstPos];
             leftFirstPos++;
             i++;
         }
-        while(rightFirstPos <= rightLastPos)
+        while (rightFirstPos <= rightLastPos)
         {
             aux[i] = data[rightFirstPos];
             rightFirstPos++;
@@ -189,7 +189,7 @@ private:
         }
     }
 
-    void computeMerge(int firstPos, int lastPos, vector<T>& data)
+    void computeMerge(int firstPos, int lastPos, std::vector<T>& data)
     {
         if (firstPos < lastPos)
         {
@@ -200,18 +200,18 @@ private:
         }
     }
 
-    void computeQuick(int left, int right, vector<T>& data)
+    void computeQuick(int left, int right, std::vector<T>& data)
     {
-        if(left < right){
+        if (left < right){
             int m = left;
             for (int i = left+1; i <= right; i++)
             {
-                if(data[i] < data[left])
+                if (data[i] < data[left])
                 {
-                    swap(data[++m], data[i]);
+                    std::swap(data[++m], data[i]);
                 }
             }
-            swap(data[left],data[m]);
+            std::swap(data[left],data[m]);
             this->computeQuick(left, m-1, data);
             this->computeQuick(m+1, right, data);
         }

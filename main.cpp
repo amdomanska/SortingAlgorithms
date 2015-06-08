@@ -1,15 +1,12 @@
 #include "sortingAlgorithm.h"
-#include <pthread.h>
-#include <fstream>
-using namespace std;
 
 template <typename T>
-void computeAll(vector<T> data)
+void computeAll(std::vector<T> data)
 {
     Sorting<T> sortAlgorithms(data);
 
-    vector <vector<T>(Sorting<T>::*)()> ptrsToMethods = sortAlgorithms.getPointersToAllSoringMethods();
-    vector<T> result;
+    std::vector <const std::vector<T>& (Sorting<T>::*)()> ptrsToMethods = sortAlgorithms.getPointersToAllSoringMethods();
+    std::vector<T> result;
 
     for (unsigned int i = 0; i < ptrsToMethods.size(); i++)
     {
@@ -20,26 +17,27 @@ void computeAll(vector<T> data)
 
 int main()
 {
-    string fileName;
-    cout << "Enter the absoluth path to your data file..." << endl;
-    cin >> fileName;
-    cout << endl;
-    cout << "Opening file " << fileName << " ..." << endl;
+    std::string fileName;
+    std::cout << "Enter the absoluth path to your data file..." << std::endl;
+//    cin >> fileName;
+//    cout << endl;
+    fileName = "/home/agnieszka/Projects/SortingAlgorithms/double_data.txt";
+    std::cout << "Opening file " << fileName << " ..." << std::endl;
 
-    ifstream dataFile;
+    std::ifstream dataFile;
     dataFile.open(fileName.c_str());
 
     if (!dataFile.good())
     {
-        cout << "File with data cannot be open" << endl;
+        std::cout << "File with data cannot be open" << std::endl;
 
         return 0;
     }
 
-    cout << "File open correctly..." << endl;
+    std::cout << "File open correctly..." << std::endl;
 
     bool isString = false;
-    vector<double> doubleData;
+    std::vector<double> doubleData;
     float f;
     while (dataFile >> f)
     {
@@ -47,20 +45,20 @@ int main()
     }
     if (!dataFile.eof())
     {
-        cout << "Let's sort strings!" << endl;
+        std::cout << "Let's sort strings!" << std::endl;
         isString = true;
     }
     else
     {
-        cout << "Let's sort doubles!" << endl;
+        std::cout << "Let's sort doubles!" << std::endl;
     }
 
-    vector<string> stringData;
-    if(isString)
+    std::vector<std::string> stringData;
+    if (isString)
     {
         dataFile.clear();
         dataFile.seekg(0);
-        string s;
+        std::string s;
         while (dataFile >> s)
         {
             dataFile >> s;
