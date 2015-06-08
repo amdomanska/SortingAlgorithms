@@ -19,9 +19,9 @@ int main()
 {
     std::string fileName;
     std::cout << "Enter the absoluth path to your data file..." << std::endl;
-//    cin >> fileName;
-//    cout << endl;
-    fileName = "/home/agnieszka/Projects/SortingAlgorithms/double_data.txt";
+    std::cin >> fileName;
+    std::cout << endl;
+
     std::cout << "Opening file " << fileName << " ..." << std::endl;
 
     std::ifstream dataFile;
