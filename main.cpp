@@ -1,4 +1,5 @@
 #include "sortingAlgorithm.h"
+#include "stdlib.h"
 
 template <typename T>
 void computeAll(std::vector<T> data)
@@ -31,7 +32,7 @@ int main()
     {
         std::cout << "File with data cannot be open" << std::endl;
 
-        return 0;
+        return EXIT_FAILURE;
     }
 
     std::cout << "File open correctly..." << std::endl;
@@ -66,10 +67,10 @@ int main()
         }
         computeAll(stringData);
 
-        return 0;
+        return EXIT_SUCCESS;
     }
     computeAll(doubleData);
 
-    return 0;
+    return EXIT_SUCCESS;
 }
 
